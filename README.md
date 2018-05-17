@@ -23,5 +23,6 @@ export AWS_SECRET_ACCESS_KEY=<ADDME>
 docker run -it -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
  -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   aimeeb2/cumulus-ecs-task-python:$VERSION \
-  arn:aws:states:us-east-1:433612427488:activity:cce-HelloWorld-Activity
+  arn:aws:states:us-east-1:433612427488:activity:cce-DownloadTiles-Activity \
+  arn:aws:lambda:us-east-1:433612427488:function:cce-ViirsProcessing
 ```
