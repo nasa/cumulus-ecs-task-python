@@ -2,7 +2,7 @@
 ## Building
 
 ```
-export VERSION=0.0.3
+export VERSION=0.0.4
 docker build -t aimeeb2/cumulus-ecs-task-python:$VERSION .
 ```
 
