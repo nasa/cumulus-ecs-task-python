@@ -3,33 +3,36 @@ import boto3
 import json
 import sys
 from run_cumulus_task import run_cumulus_task
-import parallel_wget
+import requests, zipfile, io
 
 client = boto3.client('stepfunctions', region_name = 'us-east-1')
+lambda_client = boto3.client('lambda', region_name = 'us-east-1')
 
-def task(event, context):
-    """simple task that returns the event unchanged"""
-    # example logging inside of a task using CumulusLogger
-    config = event['config']
-    parallel_wget.parallel_wget(
-       host=config['provider']['host'],
-       path=config['collection']['provider_path'],
-       files=event['input']
-    )
-    # return the output of the task
-    return { "result": "Files downloaded" }
-
-def handler(event, context):
+def handler(func, event, context):
     """handler that is provided to aws lambda"""
-    return run_cumulus_task(task, event, context, {})
+    return run_cumulus_task(func, event, context, {})
+
+def get_lambda_function(lambda_arn):
+  lambda_function = lambda_client.get_function(FunctionName=lambda_arn)
+  lambda_code_url = lambda_function['Code']['Location']
+  r = requests.get(lambda_code_url)
+  z = zipfile.ZipFile(io.BytesIO(r.content))
+  z.extractall('task')
+  module_str, function_str = lambda_function['Configuration']['Handler'].split('.')
+  sys.path.insert(0, '../task')
+  task = __import__('task.{0}'.format(module_str))
+  module = getattr(task, module_str)
+  return getattr(module, function_str)
 
 def main():
-  activity_arn = sys.argv[1]
-  r = client.get_activity_task(activityArn = activity_arn)
-  task_token = r['taskToken']
   try:
+    activity_arn = sys.argv[1]
+    lambda_arn = sys.argv[2]
+    r = client.get_activity_task(activityArn = activity_arn)
+    task_token = r['taskToken']
     event_data = json.loads(r['input'])
-    result = handler(event_data, {})
+    function = get_lambda_function(lambda_arn)
+    result = handler(function, event_data, {})
     client.send_task_success(taskToken=task_token, output=json.dumps(result))
   except Exception as e:
     client.send_task_failure(taskToken=task_token, error=e)
