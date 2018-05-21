@@ -3,6 +3,7 @@ import run_task
 import argparse
 
 parser = argparse.ArgumentParser(prog='PROG')
+parser.add_argument('command', help='Unused command argument, should be cumulus-ecs-task')
 parser.add_argument('--lambda-arn', nargs=1, help='AWS Lambda ARN to run in ECS Activity')
 parser.add_argument('--activity-arn', nargs=1, help='AWS Activity ARN')
 args = parser.parse_args()
