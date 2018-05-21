@@ -37,6 +37,6 @@ docker run -it -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
  -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   cumuluss/cumulus-ecs-task-python:$VERSION \
   cumulus-ecs-task \
-  --activity-arn arn:aws:states:us-east-1:433612427488:activity:cce-DownloadTiles-Activity \
-  --lambda-arn arn:aws:lambda:us-east-1:433612427488:function:cce-ViirsProcessing
+  --activityArn arn:aws:states:us-east-1:433612427488:activity:cce-DownloadTiles-Activity \
+  --lambdaArn arn:aws:lambda:us-east-1:433612427488:function:cce-ViirsProcessing
 ```
