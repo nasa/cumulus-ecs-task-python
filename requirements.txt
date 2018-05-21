@@ -1,3 +1,4 @@
+argparse
 boto3>=1.7.4
 parallel_wget>=0.0.6
 requests

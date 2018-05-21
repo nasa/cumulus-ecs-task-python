@@ -61,14 +61,9 @@ def step_function_handler(handler, activity_arn, lambda_arn):
     else:
         print('No activity found')
 
-def poll():
+def poll(activity_arn, lambda_arn):
     config = Config(read_timeout=70)
-    activity_arn = sys.argv[1]
-    lambda_arn = sys.argv[2]
     print('outside of the loop')
     # loop forever
     while True:
         step_function_handler(handler, activity_arn, lambda_arn)
-
-if __name__ == '__main__':
-    poll()

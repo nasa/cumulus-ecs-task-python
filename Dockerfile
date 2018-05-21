@@ -6,4 +6,4 @@ RUN mkdir -p task
 RUN touch task/__init__.py
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT [ "./run_task.py" ]
+ENTRYPOINT [ "./cumulus-ecs-task" ]
