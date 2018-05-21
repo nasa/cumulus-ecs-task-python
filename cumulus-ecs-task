@@ -1,0 +1,9 @@
+#!/usr/local/bin/python3
+import run_task
+import argparse
+
+parser = argparse.ArgumentParser(prog='PROG')
+parser.add_argument('--lambda-arn', nargs=1, help='AWS Lambda ARN to run in ECS Activity')
+parser.add_argument('--activity-arn', nargs=1, help='AWS Activity ARN')
+args = parser.parse_args()
+run_task.poll(args.activity_arn[0], args.lambda_arn[0])
