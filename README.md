@@ -15,7 +15,7 @@ When included in a Cumulus workflow and deployed to AWS, it will download a spec
 ## Building
 
 ```
-export VERSION=0.0.1
+export VERSION=0.0.2
 docker build -t cumuluss/cumulus-ecs-task-python:$VERSION .
 ```
 
@@ -30,8 +30,8 @@ docker push cumuluss/cumulus-ecs-task-python:$VERSION
 ## Testing
 
 ```
-export AWS_ACCESS_KEY_ID=<ADDME>
-export AWS_SECRET_ACCESS_KEY=<ADDME>
+export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
+export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
 
 docker run -it -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
  -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
